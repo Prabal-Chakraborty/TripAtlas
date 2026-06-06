@@ -1,0 +1,68 @@
+<div class="auth-page">
+  <div class="auth-left">
+    <div class="brand-box">
+      <span class="badge">Create Account</span>
+      <h1>Join TourWithMaps</h1>
+      <p>
+        Build your secure authentication flow with a polished register page,
+        clean validation, and protected route access.
+      </p>
+
+      <div class="feature-list">
+        <div class="feature-item">MongoDB-backed registration</div>
+        <div class="feature-item">JWT authentication ready</div>
+        <div class="feature-item">Modern standalone UI</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-card">
+      <h2>Create Account</h2>
+      <p class="subtitle">Register to access your dashboard</p>
+
+      <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" formControlName="name" placeholder="Enter your name" />
+          <small *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid">
+            Name must be at least 2 characters
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" formControlName="email" placeholder="Enter your email" />
+          <small *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+            Please enter a valid email
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" formControlName="password" placeholder="Create password" />
+          <small *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+            Password must be at least 6 characters
+          </small>
+        </div>
+
+        <div class="success-box" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
+
+        <div class="error-box" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <button type="submit" [disabled]="loading">
+          {{ loading ? 'Creating...' : 'Create Account' }}
+        </button>
+      </form>
+
+      <p class="switch-text">
+        Already have an account?
+        <a routerLink="/login">Login</a>
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="map-page" *ngIf="destination; else notFound">
+  <div class="map-header">
+    <div class="header-left">
+      <button class="back-btn" (click)="goBack()">← Back</button>
+
+      <div class="title-block">
+        <span class="eyebrow">Location View</span>
+        <h1>{{ destination.name }}</h1>
+        <p>
+          {{ destination.country }} • {{ destination.state }} • {{ destination.category }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-layout">
+    <div class="map-card">
+      <div id="map" class="map-container"></div>
+    </div>
+
+    <div class="info-card">
+      <img [src]="destination.image" [alt]="destination.name" class="place-image" />
+
+      <div class="info-content">
+        <span class="category-badge">{{ destination.category }}</span>
+        <h2>{{ destination.name }}</h2>
+        <p class="description">{{ destination.description }}</p>
+
+        <div class="meta-row">
+          <span>Country</span>
+          <strong>{{ destination.country }}</strong>
+        </div>
+
+        <div class="meta-row">
+          <span>State</span>
+          <strong>{{ destination.state }}</strong>
+        </div>
+
+        <div class="meta-row">
+          <span>Latitude</span>
+          <strong>{{ destination.lat }}</strong>
+        </div>
+
+        <div class="meta-row">
+          <span>Longitude</span>
+          <strong>{{ destination.lng }}</strong>
+        </div>
+
+        <div class="meta-row">
+          <span>Tour Cost</span>
+          <strong>{{ destination.currency }} {{ destination.price }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <div class="not-found-card">
+    <h2>Location not found</h2>
+    <p>The selected destination could not be loaded.</p>
+    <button class="back-btn" (click)="goBack()">Back to Dashboard</button>
+  </div>
+</ng-template>

@@ -1,0 +1,108 @@
+<div class="dashboard-page">
+  <header class="topbar">
+    <div>
+      <span class="eyebrow">Protected Area</span>
+      <h1>Travel Dashboard</h1>
+      <p *ngIf="userData">Welcome back, {{ userData.name }}</p>
+      <p *ngIf="!userData">Find your next destination</p>
+    </div>
+
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </header>
+
+  <div *ngIf="loading" class="status-card">
+    Loading dashboard...
+  </div>
+
+  <div *ngIf="errorMessage" class="error-card">
+    {{ errorMessage }}
+  </div>
+
+  <section *ngIf="!loading" class="filter-section">
+    <div class="filter-card">
+      <div class="filter-header">
+        <div>
+          <h2>Plan Your Tour</h2>
+          <p>Select country, state, and optionally category</p>
+        </div>
+
+        <button class="clear-btn" type="button" (click)="clearFilters()">Clear</button>
+      </div>
+
+      <form [formGroup]="filterForm" class="filter-grid">
+        <div class="form-group">
+          <label for="country">Select Country</label>
+          <select id="country" formControlName="country">
+            <option value="">Choose country</option>
+            <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="state">Select State</label>
+          <select id="state" formControlName="state">
+            <option value="">Choose state</option>
+            <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category (Optional)</label>
+          <select id="category" formControlName="category">
+            <option value="">All categories</option>
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section *ngIf="!loading && filteredDestinations.length > 0" class="cards-section">
+    <div class="cards-grid">
+      <div class="tour-card" *ngFor="let item of filteredDestinations">
+        <div class="tour-image-wrap">
+          <img [src]="item.image" [alt]="item.name" class="tour-image" />
+          <span class="category-badge">{{ item.category }}</span>
+        </div>
+
+        <div class="tour-content">
+          <div class="tour-top">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.country }} • {{ item.state }}</p>
+          </div>
+
+          <p class="tour-description">{{ item.description }}</p>
+
+          <div class="tour-meta">
+            <span class="price">{{ item.currency }} {{ item.price }}</span>
+          </div>
+
+          <div class="tour-actions">
+            <button class="book-btn" type="button" (click)="bookNow(item.id)">Book Now</button>
+            <button class="map-btn" type="button" (click)="viewInMap(item.id)">View in Map</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section
+    *ngIf="!loading && !filteredDestinations.length && filterForm.get('country')?.value && filterForm.get('state')?.value"
+    class="empty-state"
+  >
+    <div class="empty-card">
+      <h3>No tours found</h3>
+      <p>Try changing category or selecting a different state.</p>
+    </div>
+  </section>
+
+  <section
+    *ngIf="!loading && (!filterForm.get('country')?.value || !filterForm.get('state')?.value)"
+    class="empty-state"
+  >
+    <div class="empty-card">
+      <h3>Start by choosing a country and state</h3>
+      <p>Your matching destinations will appear here as beautiful cards.</p>
+    </div>
+  </section>
+</div>
